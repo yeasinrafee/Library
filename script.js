@@ -5,9 +5,31 @@ const author = document.querySelector("#author");
 const pageNumber = document.querySelector("#page-number");
 const date = document.querySelector("#date");
 const bookCheck = document.querySelector("#book-check");
+const form = document.querySelector("form");
+
+let dataArray = [];
+function books(title, author, pages, date, check) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.date = date;
+  this.check = check;
+}
 
 add.addEventListener("click", (e) => {
   e.preventDefault();
+
+  //   Storing All the datas in an array
+  const book = new books(
+    title.value,
+    author.value,
+    pageNumber.value,
+    date.value,
+    bookCheck.value
+  );
+  dataArray.push(book);
+
+  //   Displaying the UI
   main.innerHTML += `<div class="card m-3" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title text-center mb-3">Book Details</h5>
@@ -50,4 +72,6 @@ add.addEventListener("click", (e) => {
     e.preventDefault();
     deleteElement.parentElement.parentElement.remove();
   });
+  form.reset();
+  console.log(dataArray);
 });
