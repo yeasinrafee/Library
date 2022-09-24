@@ -7,31 +7,29 @@ const pageNumber = document.querySelector("#page-number");
 const date = document.querySelector("#date");
 const bookCheck = document.querySelector("#book-check");
 const form = document.querySelector("form");
+const deleteElement = document.querySelector(".btn-delete");
 
-let dataArray = [];
-function books(title, author, pages, date, check) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.date = date;
-  this.check = check;
-}
+class Books {
+  dataArray = [];
+  constructor(title, author, pages, date, check) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.date = date;
+    this.check = check;
+  }
 
-function addBooks() {
-  add.addEventListener("click", (e) => {
-    e.preventDefault();
+  addBook() {
+    this.dataArray.push({
+      title: this.title,
+      author: this.author,
+      pages: this.pages,
+      date: this.date,
+      check: this.check,
+    });
+  }
 
-    //   Storing All the datas in an array
-    const book = new books(
-      title.value,
-      author.value,
-      pageNumber.value,
-      date.value,
-      bookCheck.value
-    );
-    dataArray.push(book);
-
-    //   Displaying the UI
+  displayUI() {
     main.innerHTML += `<div class="card m-3" style="width: 18rem">
         <div class="card-body">
           <h5 class="card-title text-center mb-3">Book Details</h5>
@@ -39,25 +37,25 @@ function addBooks() {
             <ul class="list-group">
               <li class="list-group-item">
                 <span class="text-muted">Title:</span>
-                <span class="title">${title.value}</span></li
+                <span class="title">${this.dataArray[0].title}</span></li
               >
               <li class="list-group-item">
                 <span class="text-muted">Author:</span>
-                <span class="author">${author.value}</span>
+                <span class="author">${this.dataArray[0].author}</span>
               </li>
               <li class="list-group-item">
                 <span class="text-muted">Published:</span>
-                <span class="date">${date.value}</span>
+                <span class="date">${this.dataArray[0].date}</span>
               </li>
               <li class="list-group-item">
                 <span class="text-muted">Pages:</span>
-                <span class="pages">${pageNumber.value}</span></li
+                <span class="pages">${this.dataArray[0].pages}</span></li
               >
               <li class="list-group-item">
                 <span class="text-muted"
                   >Read:
                   ${
-                    bookCheck.checked
+                    this.dataArray[0].check.checked
                       ? '<i class="fa-sharp fa-solid fa-check text-success"></i>'
                       : '<i class="fa-sharp fa-solid fa-xmark text-danger"></i>'
                   }</span
@@ -68,16 +66,24 @@ function addBooks() {
           <a href="#" class="btn btn-primary btn-sm ms-3 btn-delete">Delete</a>
         </div>
       </div>`;
-
-    const deleteElement = document.querySelector(".btn-delete");
-    deleteElement.addEventListener("click", (e) => {
-      e.preventDefault();
-      deleteElement.parentElement.parentElement.remove();
-    });
-    form.reset();
-    console.log(dataArray);
-
-    const editElement = document.querySelector(".btn-edit");
-  });
+  }
+  deleteUI() {}
 }
-addBooks();
+
+add.addEventListener("click", (e) => {
+  const book = new Books(
+    title.value,
+    author.value,
+    pageNumber.value,
+    date.value,
+    bookCheck
+  );
+
+  book.addBook();
+  book.displayUI();
+  console.log(book.dataArray);
+  const deleteElement = document.querySelector(".btn-delete");
+  deleteElement.addEventListener("click", (e) => {
+    deleteElement.parentElement.parentElement.remove();
+  });
+});
