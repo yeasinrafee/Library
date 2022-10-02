@@ -9,6 +9,10 @@
   border: none;
 }
 
+.msg {
+  color: red;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
